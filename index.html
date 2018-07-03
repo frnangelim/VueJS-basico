@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Vue.js Example</title>
+
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+<body>
+	<div id="app" style="text-align: center;">
+		<todo-header v-bind:headertitle="title"></todo-header>	
+
+		<label class="w3-text-teal">Task Name</label>
+		<input class="w3-input w3-border w3-round-large w3-light-grey" type="text" v-model="taskName">
+
+		<label class="w3-text-teal">Deadline</label>
+		<input class="w3-input w3-border w3-round-large w3-light-grey" type="date" v-model="taskDate">
+
+	 	<button class="w3-btn w3-blue-grey" style="margin-top: 5px" @click="addItem()" :disabled="taskName == '' || taskDate == '' ">Add</button>
+
+	 	<div class="divider"></div>
+
+		<table id=my-table>
+			<tr>
+				<th style="width: 70%">Task</th>
+				<th>Deadline</th>
+				<th></th>
+			</tr>
+
+			<tr v-for="task in tasks">
+				<td>{{task.taskName}}</td>
+				<td>{{task.taskDate}}</td>
+				<td class="removeBtn" @click="removeItem($index)">X</td>
+			</tr>
+		</table>
+	
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+	<script type="text/javascript">
+		Vue.component('todo-header', {
+		  props: ['headertitle'],
+		  template: '<div class="w3-container w3-teal" style="margin-bottom: 15px"><h2>{{headertitle}}</h2></div>'
+		});
+
+		new Vue({
+			el: "#app",
+			data: {
+				taskName: '',
+				taskDate: '',
+				title: 'TO-DO list',
+				tasks: []
+			},
+			methods: {
+				addItem(){
+					this.tasks.push({taskName: this.taskName,
+						taskDate: this.taskDate});
+					this.taskName = '';
+					this.taskDate = '';
+				},
+				removeItem(index){
+					this.tasks.splice(index, 1);
+				}
+			}
+		})
+	</script>
+</body>
+</html>
+
+<style type="text/css">
+	#my-table {
+	 	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	 	border-collapse: collapse;
+	    width: 50%;
+	    margin-left: auto;
+	    margin-right: auto;
+	    margin-top: 30px
+	}
+
+	#my-table td, #my-table th {
+	    border: 1px solid #ddd;
+	    padding: 8px;
+	}
+
+    #my-table th {
+	    padding-top: 12px;
+	    padding-bottom: 12px;
+	    background-color: #dbdbdb;
+	    color: black;
+	}
+
+	.button {
+	    border: none;
+	    color: black;
+	    padding: 5px 100px;
+	    text-align: center;
+	    text-decoration: none;
+	    display: inline-block;
+	    outline: none;
+	    font-size: 16px;
+	}
+
+	.button:hover {
+		cursor: pointer;
+	}
+
+	input {
+		width: 20rem !important;
+		margin-left: auto;
+		margin-right: auto;
+		outline: none;
+	}
+
+	.divider {
+		border: 1px solid;
+		margin-top: 10px;
+		border-color: #bababa
+	}
+
+	.removeBtn {
+		cursor: pointer;
+		font-weight: bold;
+	}
+}
+
+</style>
